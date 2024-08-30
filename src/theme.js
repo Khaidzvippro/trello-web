@@ -1,19 +1,28 @@
-import { createTheme } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
+import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
+import { red, blue, green, purple } from '@mui/material/colors';
 
-// Create a theme instance.
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#556cd6',
+const theme = extendTheme({
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: {
+          main: blue[500],
+        },
+        secondary: {
+          main: green[500],
+        },
+        gradient: {
+          main: `linear-gradient(45deg, ${blue[500]} 30%, ${purple[500]} 90%)`,
+        },
+      },
     },
-    secondary: {
-      main: '#19857b',
-    },
-    error: {
-      main: red.A400,
+    dark: {
+      palette: {
+        primary: {
+          main: red[400],
+        },
+      },
     },
   },
 });
-
 export default theme;
