@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box'
 
 function BoardBar() {
   return (
@@ -8,10 +8,10 @@ function BoardBar() {
         width: '100%',
         height: (theme) => theme.trello.boardBarHeight,
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'center'
       }}
     ></Box>
-  );
+  )
 }
 
-export default BoardBar;
+export default BoardBar
