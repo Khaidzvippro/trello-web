@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box'
 
 function BoardContent() {
   return (
@@ -7,12 +7,12 @@ function BoardContent() {
         width: '100%',
         height: (theme) =>
           `calc(100vh - ${theme.trello.appBarHeight} - ${theme.trello.boardBarHeight})`,
-        backgroundColor: 'primary.main',
+        backgroundColor: 'secondary.main',
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'center'
       }}
     ></Box>
-  );
+  )
 }
 
-export default BoardContent;
+export default BoardContent

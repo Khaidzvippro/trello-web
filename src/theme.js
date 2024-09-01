@@ -1,24 +1,82 @@
-import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
-import { teal, deepOrange, cyan, orange } from '@mui/material/colors';
+import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
 
 const theme = extendTheme({
   trello: {
-    appBarHeight: '52px',
-    boardBarHeight: '58px',
+    appBarHeight: '58px',
+    boardBarHeight: '60px'
   },
   colorSchemes: {
     light: {
       palette: {
-        primary: teal,
-        secondary: deepOrange,
-      },
+        primary: {
+          main: '#003B5C'
+        },
+        secondary: {
+          main: '#7A7EBF'
+        }
+      }
     },
     dark: {
       palette: {
-        primary: cyan,
-        secondary: orange,
-      },
-    },
+        primary: {
+          main: '#005F6B'
+        },
+        secondary: {
+          main: '#006B8A'
+        }
+      }
+    }
   },
-});
-export default theme;
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          '*::-webkit-scrollbar': {
+            width: '8px',
+            height: '8px'
+          },
+          '*::-webkit-scrollbar-thumb': {
+            backgroundColor: '#CAD3C8',
+            borderRadius: '8px'
+          },
+          '*::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: '#84817a'
+          }
+        }
+      }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none'
+        }
+      }
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          color: theme.palette.primary.main,
+          fontSize: '0.875rem'
+        })
+      }
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          color: theme.palette.primary.main,
+          fontSize: '0.875rem',
+          '.MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette.primary.light
+          },
+          '&:hover': {
+            '.MuiOutlinedInput-notchedOutline': {
+              borderColor: theme.palette.primary.main
+            }
+          },
+          '& fieldset': { borderWidth: '1.5px !important' }
+        })
+      }
+    }
+  }
+})
+export default theme

@@ -1,5 +1,5 @@
 {
   "singleQuote": true,
-  "prettier.semi": false,
-  "prettier.trailingComma": "none"
+  "semi": false,
+  "trailingComma": "none"
 }
