@@ -13,6 +13,9 @@ const theme = extendTheme({
         },
         secondary: {
           main: '#7A7EBF'
+        },
+        tertiary: {
+          main: '#A9D6E5'
         }
       }
     },
@@ -23,6 +26,9 @@ const theme = extendTheme({
         },
         secondary: {
           main: '#006B8A'
+        },
+        tertiary: {
+          main: '#8A8FC4'
         }
       }
     }
