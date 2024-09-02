@@ -6,32 +6,8 @@ const theme = extendTheme({
     boardBarHeight: '60px'
   },
   colorSchemes: {
-    light: {
-      palette: {
-        primary: {
-          main: '#003B5C'
-        },
-        secondary: {
-          main: '#7A7EBF'
-        },
-        tertiary: {
-          main: '#A9D6E5'
-        }
-      }
-    },
-    dark: {
-      palette: {
-        primary: {
-          main: '#005F6B'
-        },
-        secondary: {
-          main: '#006B8A'
-        },
-        tertiary: {
-          main: '#8A8FC4'
-        }
-      }
-    }
+    light: {},
+    dark: {}
   },
   components: {
     MuiCssBaseline: {
@@ -39,14 +15,14 @@ const theme = extendTheme({
         body: {
           '*::-webkit-scrollbar': {
             width: '8px',
-            height: '8px'
+            height: '6px'
           },
           '*::-webkit-scrollbar-thumb': {
-            backgroundColor: '#CAD3C8',
+            backgroundColor: '#8a8bbf',
             borderRadius: '8px'
           },
           '*::-webkit-scrollbar-thumb:hover': {
-            backgroundColor: '#84817a'
+            backgroundColor: 'white'
           }
         }
       }
@@ -54,33 +30,26 @@ const theme = extendTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: 'none'
+          textTransform: 'none',
+          borderWidth: '0.5px',
+          '&:hover': { borderWidth: '1px' }
         }
       }
     },
     MuiInputLabel: {
       styleOverrides: {
-        root: ({ theme }) => ({
-          color: theme.palette.primary.main,
+        root: {
           fontSize: '0.875rem'
-        })
+        }
       }
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        root: ({ theme }) => ({
-          color: theme.palette.primary.main,
-          fontSize: '0.875rem',
-          '.MuiOutlinedInput-notchedOutline': {
-            borderColor: theme.palette.primary.light
-          },
-          '&:hover': {
-            '.MuiOutlinedInput-notchedOutline': {
-              borderColor: theme.palette.primary.main
-            }
-          },
-          '& fieldset': { borderWidth: '1.5px !important' }
-        })
+        root: {
+          '& fieldset': { borderWidth: '0.5px !important' },
+          '&:hover fieldset': { borderWidth: '2px !important' },
+          '&.Mui-focused fieldset': { borderWidth: '2px !important' }
+        }
       }
     }
   }

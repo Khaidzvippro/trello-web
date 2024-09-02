@@ -12,13 +12,13 @@ import Button from '@mui/material/Button'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
 const MemuStyles = {
-  color: 'tertiary.main',
-  bgcolor: 'while',
+  color: 'white',
+  bgcolor: 'transparent',
   border: 'none',
   paddingX: '5px',
   borderRadius: '4px',
-  '& .MuiSvgIcon-root': {
-    color: 'tertiary.main'
+  '.MuiSvgIcon-root': {
+    color: 'white'
   },
   '&:hover': {
     bgcolor: 'primary.50'
@@ -28,7 +28,6 @@ function BoardBar() {
   return (
     <Box
       sx={{
-        backgroundColor: 'primary.dark',
         width: '100%',
         height: (theme) => theme.trello.boardBarHeight,
         display: 'flex',
@@ -37,7 +36,11 @@ function BoardBar() {
         gap: 2,
         paddingX: 2,
         overflowX: 'auto',
-        borderTop: '1px solid #003B5C'
+        backgroundColor: (theme) =>
+          theme.palette.mode === 'dark' ? '#596275' : '#9c9fc9',
+        // backgroundColor: (theme) =>
+        //   theme.palette.mode === 'dark' ? '#596275' : '#8a8bbf',
+        borderBottom: '1px solid white'
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -73,13 +76,35 @@ function BoardBar() {
         />
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Button variant="outlined" startIcon={<PersonAddIcon />}>
+        <Button
+          variant="outlined"
+          startIcon={<PersonAddIcon />}
+          sx={{
+            color: 'white',
+            borderColor: 'white',
+            '&:hover': { borderColor: 'white' }
+          }}
+        >
           Invate
         </Button>
         <AvatarGroup
           max={3}
-          sx={{ '& .MuiAvatar-root': { width: 34, height: 34, fontSize: 16 } }}
+          sx={{
+            gap: '10px',
+            '& .MuiAvatar-root': {
+              width: 36,
+              height: 36,
+              fontSize: 16,
+              border: 'none'
+            }
+          }}
         >
+          <Tooltip title="khaidz">
+            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          </Tooltip>
+          <Tooltip title="khaidz">
+            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          </Tooltip>
           <Tooltip title="khaidz">
             <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
           </Tooltip>
