@@ -2,50 +2,59 @@ import Box from '@mui/material/Box'
 import Column from './Column/column'
 import Button from '@mui/material/Button'
 import AddBoxIcon from '@mui/icons-material/AddBox'
+import {
+  SortableContext,
+  horizontalListSortingStrategy
+} from '@dnd-kit/sortable'
 
 function ListColumns({ columns }) {
   return (
-    <Box
-      sx={{
-        bgcolor: 'inherit',
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        overflowX: 'auto',
-        overflowY: 'hilden',
-        '&::-webkit-scrollbar-track': { m: 2 }
-      }}
+    <SortableContext
+      items={columns?.map((c) => c._id)}
+      strategy={horizontalListSortingStrategy}
     >
-      {columns?.map((column) => (
-        <Column key={column._id} column={column} />
-      ))}
-
-      {/* Box add new column CTA*/}
       <Box
         sx={{
-          minWidth: '180px',
-          maxWidth: '200px',
-          bgcolor: (theme) =>
-            theme.palette.mode === 'dark' ? '#0000003d' : '##ffffff3d',
-          mx: 2,
-          borderRadius: '6px',
-          height: 'fit-content'
+          bgcolor: 'inherit',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          overflowX: 'auto',
+          overflowY: 'hilden',
+          '&::-webkit-scrollbar-track': { m: 2 }
         }}
       >
-        <Button
-          startIcon={<AddBoxIcon />}
+        {columns?.map((column) => (
+          <Column key={column._id} column={column} />
+        ))}
+
+        {/* Box add new column CTA*/}
+        <Box
           sx={{
-            color: 'white',
-            width: '100%',
-            justifyContent: 'flex-start',
-            pl: '2.5',
-            py: '1'
+            minWidth: '180px',
+            maxWidth: '200px',
+            bgcolor: (theme) =>
+              theme.palette.mode === 'dark' ? '#0000003d' : '##ffffff3d',
+            mx: 2,
+            borderRadius: '6px',
+            height: 'fit-content'
           }}
         >
-          Add new column
-        </Button>
+          <Button
+            startIcon={<AddBoxIcon />}
+            sx={{
+              color: 'white',
+              width: '100%',
+              justifyContent: 'flex-start',
+              pl: '2.5',
+              py: '1'
+            }}
+          >
+            Add new column
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </SortableContext>
   )
 }
 
