@@ -27,7 +27,7 @@ function BoardContent({ board }) {
   })
   // nhấn giữ 250ms và dung sai cảm ứng 5px thì mới kích hoạt event
   const touchSensor = useSensor(TouchSensor, {
-    activationConstraint: { delay: 250, tolerance: 5 }
+    activationConstraint: { delay: 250, tolerance: 10 }
   })
 
   const sensors = useSensors(mouseSensor, touchSensor)
@@ -51,8 +51,24 @@ function BoardContent({ board }) {
     )
     setActiveDragItemData(event?.active?.data?.current)
   }
+  // Trigger trong quá trình kéo
+  const handleDragOver = (event) => {
+    // Không làm gì thêm nếu như kéo column
+    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) return
+
+    // Nếu kéo card thì xử lí để kéo card qua lại các column
+    const { active, over } = event
+
+    // kiểm tra nếu ko tồn tại active hoặc over( kéo linh tinh ra ngoài thì return luôn tránh lỗi)
+    if (!active || !over) return
+  }
   // Trigger khi drop
   const handleDragEnd = (event) => {
+    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
+      console.log('hanh dong keo tha card: ')
+      return
+    }
+
     const { active, over } = event
     // kiểm tra nếu ko tồn tại over( kéo thả ra ngoài thì return luôn tránh lỗi)
     if (!over) return
@@ -87,6 +103,7 @@ function BoardContent({ board }) {
   return (
     <DndContext
       onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
       sensors={sensors}
     >
