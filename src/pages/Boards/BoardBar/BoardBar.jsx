@@ -45,12 +45,14 @@ function BoardBar({ board }) {
       }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Chip
-          sx={MemuStyles}
-          icon={<DashboardIcon />}
-          label={board?.title}
-          onClick={() => {}}
-        />
+        <Tooltip title={board?.description}>
+          <Chip
+            sx={MemuStyles}
+            icon={<DashboardIcon />}
+            label={board?.title}
+            onClick={() => {}}
+          />
+        </Tooltip>
         <Chip
           sx={MemuStyles}
           icon={<VpnLockIcon />}
