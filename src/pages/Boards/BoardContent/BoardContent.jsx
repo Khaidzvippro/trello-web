@@ -8,10 +8,12 @@ import {
   MouseSensor,
   TouchSensor,
   DragOverlay,
-  defaultDropAnimationSideEffects
+  defaultDropAnimationSideEffects,
+  closestCorners
 } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { useEffect, useState } from 'react'
+import { cloneDeep } from 'lodash'
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
 
@@ -41,6 +43,13 @@ function BoardContent({ board }) {
   useEffect(() => {
     setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
   }, [board])
+  //
+  const findColumnByCardId = (cardId) => {
+    return orderedColumns.find((column) =>
+      column?.cards?.map((card) => card._id)?.includes(cardId)
+    )
+  }
+
   // Trigger khi bắt đầu drag 1 phần tử
   const handleDragStart = (event) => {
     setActiveDragItemId(event?.active?.id)
@@ -61,6 +70,77 @@ function BoardContent({ board }) {
 
     // kiểm tra nếu ko tồn tại active hoặc over( kéo linh tinh ra ngoài thì return luôn tránh lỗi)
     if (!active || !over) return
+    // activeDrangingCardId là card đang được kéo
+    const {
+      id: activeDrangingCardId,
+      data: { current: activeDrangingCardData }
+    } = active
+    // overCardId là card đang tương tác với card đang được kéo
+    const { id: overCardId } = over
+
+    // Tìm 2 column của 2 card đang được kéo theo cardId
+    const activeColumn = findColumnByCardId(activeDrangingCardId)
+    const overColumn = findColumnByCardId(overCardId)
+    // neu ko ton tai
+    if (!activeColumn || !overColumn) return
+    // chỉ xử lý nếu kéo ở 2 column khác nhau, vì đây là đang xử lý kéo thôi
+    if (activeColumn._id !== overColumn._id) {
+      setOrderedColumns((prevColumns) => {
+        const overCardIndex = overColumn?.cards?.findIndex(
+          (card) => card._id === overCardId
+        )
+        // Logic tính toán cho "cardIndex mới"
+        let newCardIndex
+        const isBelowOverItem =
+          active.rect.current.translated &&
+          active.rect.current.translated.top > over.rect.top + over.rect.height
+
+        const modifier = isBelowOverItem ? 1 : 0
+
+        newCardIndex =
+          overCardIndex >= 0
+            ? overCardIndex + modifier
+            : overColumn?.cards?.length + 1
+
+        const nextColumns = cloneDeep(prevColumns)
+        const nextActiveColumn = nextColumns.find(
+          (column) => column._id === activeColumn._id
+        )
+        const nextOverColumn = nextColumns.find(
+          (column) => column._id === overColumn._id
+        )
+        // column cũ
+        if (nextActiveColumn) {
+          // Xóa card ở column cũ (kéo card sang cột khác thì xóa card cột cũ đi)
+          nextActiveColumn.cards = nextActiveColumn.cards.filter(
+            (card) => card._id !== activeDrangingCardId
+          )
+          // Cập nhật lại mảng cardOderIds cho chuẩn dữ liệu
+          nextActiveColumn.columnOrderIds = nextActiveColumn.cards.map(
+            (card) => card._id
+          )
+        }
+        // column mới
+        if (nextOverColumn) {
+          // Kiểm tra xem card đang kéo có tồn tại ở overColum hay chưa, nếu có thì cần xóa nó trước
+          nextOverColumn.cards = nextOverColumn.cards.filter(
+            (card) => card._id !== activeDrangingCardId
+          )
+          // Thêm card đang kéo vào overColumn theo vị trí Index mới
+          nextOverColumn.cards = nextOverColumn.cards.toSpliced(
+            newCardIndex,
+            0,
+            activeDrangingCardData
+          )
+          // Cập nhật lại mảng cardOderIds cho chuẩn dữ liệu
+          nextOverColumn.columnOrderIds = nextActiveColumn.cards.map(
+            (card) => card._id
+          )
+        }
+
+        return nextColumns
+      })
+    }
   }
   // Trigger khi drop
   const handleDragEnd = (event) => {
@@ -106,6 +186,7 @@ function BoardContent({ board }) {
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
       sensors={sensors}
+      collisionDetection={closestCorners}
     >
       <Box
         sx={{
@@ -130,5 +211,4 @@ function BoardContent({ board }) {
     </DndContext>
   )
 }
-
 export default BoardContent
